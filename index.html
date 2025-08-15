@@ -301,16 +301,43 @@
       (function tick(){ if(!running) return; timeLeft=Math.max(0, timeLeft-0.2); timeEl.textContent=`Time: ${Math.ceil(timeLeft)}`; if(timeLeft>0){ tickTimer=setTimeout(tick,200);} else { endGame(); } })();
     }
 
-    function endGame(){
-      running=false; startBtn.disabled=false; startBtn.textContent='Play Again';
-      clearTimeout(spawnTimer); clearTimeout(tickTimer);
-      const dlg=document.createElement('div'); dlg.style.position='absolute'; dlg.style.inset='0'; dlg.style.display='grid'; dlg.style.placeItems='center'; dlg.style.background='rgba(255,255,255,.6)';
-      const card=document.createElement('div'); card.style.border='3px solid #000'; card.style.background='#fff'; card.style.borderRadius='16px'; card.style.padding='18px 20px'; card.style.boxShadow='6px 6px 0 #00000020'; card.style.textAlign='center';
-      card.innerHTML = `<h2 style="margin:6px 0 10px">Game Over!</h2><div style="font-weight:800; margin-bottom:8px">Your score: ${score}</div><button id="again" class="btn">Play Again</button>`;
-      dlg.appendChild(card); stage.appendChild(dlg);
-      card.querySelector('#again').addEventListener('click', ()=>{ dlg.remove(); startGame(); });
-      ding(); // küçük bitiş sesi
-    }
+   function endGame(){
+  running=false;
+  startBtn.disabled=false;
+  startBtn.textContent='Play Again';
+  clearTimeout(spawnTimer);
+  clearTimeout(tickTimer);
+
+  // Game Over kutusu
+  const dlg=document.createElement('div');
+  dlg.style.position='absolute';
+  dlg.style.inset='0';
+  dlg.style.display='grid';
+  dlg.style.placeItems='center';
+  dlg.style.background='rgba(255,255,255,.6)';
+  dlg.style.zIndex = '9999'; // <<< ekledik
+
+  const card=document.createElement('div');
+  card.style.border='3px solid #000';
+  card.style.background='#fff';
+  card.style.borderRadius='16px';
+  card.style.padding='18px 20px';
+  card.style.boxShadow='6px 6px 0 #00000020';
+  card.style.textAlign='center';
+  card.innerHTML = `<h2 style="margin:6px 0 10px">Game Over!</h2>
+                    <div style="font-weight:800; margin-bottom:8px">Your score: ${score}</div>
+                    <button id="again" class="btn">Play Again</button>`;
+
+  dlg.appendChild(card);
+  stage.appendChild(dlg);
+
+  card.querySelector('#again').addEventListener('click', ()=>{
+    dlg.remove();
+    startGame();
+  });
+
+  ding();
+}
 
     startBtn.addEventListener('click', startGame);
     window.addEventListener('keydown', e=>{ if((e.key===' '||e.key==='Enter') && !running) startGame(); });
