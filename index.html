@@ -12,6 +12,71 @@
       --stage-bg-image:none;
     }
     *{box-sizing:border-box}
+/* --- Mobile layout fixes (≤ 600px) --- */
+@media (max-width: 600px){
+  /* iOS notch için güvenli alan */
+  body{ padding: env(safe-area-inset-top) env(safe-area-inset-right)
+                env(safe-area-inset-bottom) env(safe-area-inset-left); }
+
+  .app{
+    max-width: 100%;
+    padding: 8px 12px;
+    height: 100svh;              /* mobilde tutarlı yükseklik */
+  }
+
+  /* Başlık + HUD dikey dizilsin, daha kompakt olsun */
+  header{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .brand{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Skor / süre / butonlar 2 sütun grid */
+  .hud{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+  .pill{
+    min-width: auto;
+    font-size: 16px;
+    padding: 8px 10px;
+  }
+  #startBtn, .btn{
+    width: 100%;                 /* tam genişlik butonlar */
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+
+  /* Sahne: ekrana göre yüksekliği ayarla */
+  .stage{
+    height: 62svh;               /* üstteki HUD + alttaki footer’a yer bırak */
+  }
+
+  /* İnek ve watermark biraz küçülsün ve içeri girsin */
+  .cow img{ width: clamp(120px, 28vw, 180px); }
+  .cow{ left: 6px; bottom: 14px; }
+  .watermark{ right: 8px; bottom: 8px; transform: scale(.95); }
+
+  /* Zemin daha ince görünsün istersen */
+  .ground{ height: 100px; }
+}
+
+/* Çok dar ekran (≤ 360px) mikro ayar */
+@media (max-width: 360px){
+  .pill, #startBtn, .btn{ font-size: 15px; padding: 8px 10px; }
+  .brand{ font-size: 17px; }
+  .stage{ height: 60svh; }
+}
+
+    
     html,body{height:100%}
     body{
       margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans";
