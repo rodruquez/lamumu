@@ -48,21 +48,35 @@
     .balloon::after{content:"";position:absolute;bottom:-10px;left:50%;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:12px solid #000;transform:translateX(-50%)}
     .string{position:absolute;bottom:-38px;left:50%;width:2px;height:36px;background:#000;transform:translateX(-50%)}
 
-    .cow{position:absolute;width:clamp(72px,10vw,120px);left:10px;bottom:20px;display:grid;place-items:center;filter:drop-shadow(2px 4px 0 #00000020);transition:transform .12s ease}
-    /* default CSS-cow (fallback) */
-    .cow .body{position:relative;width:clamp(72px,10vw,120px);height:clamp(60px,8.5vw,100px);background:#fff;border:3px solid #000;border-radius:30px}
-    .cow .spot{position:absolute;background:#333;border-radius:50%;opacity:.9}
-    .cow .spot.s1{width:28%;height:28%;left:10%;top:20%}
-    .cow .spot.s2{width:22%;height:22%;right:12%;top:30%}
-    .cow .face{position:absolute;width:44%;height:46%;left:28%;bottom:-8%;background:#ffc0cb;border:3px solid #000;border-radius:20px;display:grid;grid-template-columns:1fr 1fr;place-items:center}
-    .cow .eye{width:12px;height:12px;background:#000;border-radius:50%}
-    .cow .horn{position:absolute;width:18px;height:14px;top:-8px;background:#f7e0a6;border:3px solid #000;border-radius:10px}
-    .cow .horn.h1{left:26%;transform:rotate(-15deg)}
-    .cow .horn.h2{right:26%;transform:rotate(15deg)}
-    .cow .ear{position:absolute;width:18px;height:16px;top:-2px;background:#ffd6e3;border:3px solid #000;border-radius:10px}
-    .cow .ear.e1{left:8%;transform:rotate(-10deg)}
-    .cow .ear.e2{right:8%;transform:rotate(10deg)}
-    .cow img{display:none; width:clamp(72px,10vw,120px); height:auto}
+   /* PNG Cow */
+.cow {
+  position: absolute;
+  width: clamp(150px, 18vw, 220px); /* daha büyük görünüm */
+  height: auto; /* orantılı büyüme */
+  left: 10px;
+  bottom: 20px;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(2px 4px 0 #00000020);
+  transition: transform 0.12s ease;
+}
+
+.cow img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Eski CSS-cow çizim elemanlarını tamamen gizle */
+.cow .body,
+.cow .spot,
+.cow .face,
+.cow .eye,
+.cow .horn,
+.cow .ear {
+  display: none !important;
+}
+
     .pop{animation:pop .18s ease-out forwards}
     @keyframes pop{to{transform:scale(1.2);opacity:0}}
     .cloud{position:absolute;top:10px;width:160px;height:60px;filter:drop-shadow(2px 4px 0 #00000010);opacity:.8}
