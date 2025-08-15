@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lamumu Balloon Bash 🎈🐮</title>
+  <style>
+    :root { 
+      --bg:#f7f7fb; 
+      --ink:#222; 
+      --accent:#ff7aa2; 
+      --accent-2:#8fd3fe; 
+      --accent-3:#ffd36e; 
+      --time:#8bffb2; 
+      --good:#2ecc71; 
+      --bad:#ee5253; 
+      --stage-bg-image:none; /* set with url('...') via ?bg= */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans";background:radial-gradient(circle at 20% 10%, #ffffff, var(--bg) 60%);color:var(--ink);overflow:hidden}
+    .app{display:grid;grid-template-rows:auto 1fr auto;height:100dvh;max-width:960px;margin:0 auto;padding:12px clamp(12px,3vw,24px);gap:10px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+    .badge{border:2px solid #000;background:#fff;border-radius:14px;padding:6px 10px;box-shadow:3px 3px 0 #000}
+    .hud{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .pill{border:2px solid #000;background:#fff;border-radius:999px;padding:6px 12px;box-shadow:2px 2px 0 #000;min-width:110px;text-align:center;font-weight:700}
+    #startBtn,.btn{appearance:none;border:2px solid #000;background:linear-gradient(180deg,#fff,#f2f2f2);border-radius:14px;padding:10px 14px;font-weight:800;cursor:pointer;box-shadow:3px 3px 0 #000;transition:transform .05s ease, box-shadow .05s ease}
+    #startBtn:active,.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #000}
+    .stage{position:relative;border:3px solid #000;background:linear-gradient(#d9f3ff 0%,#eaf7ff 40%,#fefcf7 100%);border-radius:18px;box-shadow:6px 6px 0 #00000020, inset 0 -60px 0 #f4f0e6;overflow:hidden}
+    .stage::before{content:"";position:absolute;inset:0;background-image:var(--stage-bg-image);background-size:cover;background-position:center;opacity:.4;pointer-events:none}
+    .ground{position:absolute;inset:auto 0 0 0;height:120px;background:repeating-linear-gradient(90deg,#b8e986 0 18px,#a0df72 18px 36px);border-top:3px dashed #6ab04c}
+    .fence{position:absolute;bottom:100px;left:-20px;right:-20px;height:24px;background:repeating-linear-gradient(90deg,#ffe0a6 0 40px,#ffd58a 40px 43px);box-shadow:0 4px 0 #cfa35b}
+    .balloon{position:absolute;width:clamp(44px,7vw,70px);aspect-ratio:.75/1;border-radius:50% 50% 48% 52% / 58% 58% 42% 42%;border:3px solid #000;display:grid;place-items:center;cursor:crosshair;user-select:none;touch-action:none;filter:drop-shadow(2px 4px 0 #00000020);overflow:hidden}
+    .balloon img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+    .balloon::after{content:"";position:absolute;bottom:-10px;left:50%;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:12px solid #000;transform:translateX(-50%)}
+    .string{position:absolute;bottom:-38px;left:50%;width:2px;height:36px;background:#000;transform:translateX(-50%)}
+    .cow{position:absolute;width:clamp(72px,10vw,120px);height:clamp(60px,8.5vw,100px);left:10px;bottom:20px;display:grid;place-items:center;filter:drop-shadow(2px 4px 0 #00000020);transition:transform .12s ease}
+    .cow .body{position:relative;width:100%;height:100%;background:#fff;border:3px solid #000;border-radius:30px}
+    .cow .spot{position:absolute;background:#333;border-radius:50%;opacity:.9}
+    .cow .spot.s1{width:28%;height:28%;left:10%;top:20%}
+    .cow .spot.s2{width:22%;height:22%;right:12%;top:30%}
+    .cow .face{position:absolute;width:44%;height:46%;left:28%;bottom:-8%;background:#ffc0cb;border:3px solid #000;border-radius:20px;display:grid;grid-template-columns:1fr 1fr;place-items:center}
+    .cow .eye{width:12px;height:12px;background:#000;border-radius:50%}
+    .cow .horn{position:absolute;width:18px;height:14px;top:-8px;background:#f7e0a6;border:3px solid #000;border-radius:10px}
+    .cow .horn.h1{left:26%;transform:rotate(-15deg)}
+    .cow .horn.h2{right:26%;transform:rotate(15deg)}
+    .cow .ear{position:absolute;width:18px;height:16px;top:-2px;background:#ffd6e3;border:3px solid #000;border-radius:10px}
+    .cow .ear.e1{left:8%;transform:rotate(-10deg)}
+    .cow .ear.e2{right:8%;transform:rotate(10deg)}
+    .pop{animation:pop .18s ease-out forwards}
+    @keyframes pop{to{transform:scale(1.2);opacity:0}}
+    .cloud{position:absolute;top:10px;width:160px;height:60px;filter:drop-shadow(2px 4px 0 #00000010);opacity:.8}
+    .cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border:3px solid #000;border-radius:50px}
+    .cloud::before{width:100px;height:50px;left:10px;top:6px}
+    .cloud::after{width:70px;height:40px;left:80px;top:0}
+    footer{font-size:12px;text-align:center;opacity:.7}
+    a{color:inherit}
+    .muted{opacity:.5}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand"><span class="badge">Lamumu</span> Balloon Bash 🎈</div>
+      <div class="hud">
+        <div class="pill" id="score">Score: 0</div>
+        <div class="pill" id="time">Time: 30</div>
+        <button id="startBtn">Start Game</button>
+        <button id="muteBtn" class="btn" title="Toggle sound">🔊 Sound</button>
+      </div>
+    </header>
+
+    <main class="stage" id="stage" aria-label="Game stage" role="application">
+      <div class="cloud" style="left:20px"></div>
+      <div class="cloud" style="left:60%; top:40px; transform:scale(.9)"></div>
+      <div class="fence"></div>
+      <div class="ground"></div>
+      <div class="cow" id="cow" aria-hidden="true">
+        <div class="body">
+          <div class="ear e1"></div>
+          <div class="ear e2"></div>
+          <div class="horn h1"></div>
+          <div class="horn h2"></div>
+          <div class="spot s1"></div>
+          <div class="spot s2"></div>
+          <div class="face">
+            <div class="eye"></div>
+            <div class="eye"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      Common × Lamumu mini game — timed mode with occasional time bonus balloons. You can customize background & balloons via URL params.
+    </footer>
+  </div>
+
+  <script>
+    // ---- Elements
+    const stage = document.getElementById('stage');
+    const scoreEl = document.getElementById('score');
+    const timeEl = document.getElementById('time');
+    const startBtn = document.getElementById('startBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const cow = document.getElementById('cow');
+
+    // ---- URL-driven skins
+    const params = new URLSearchParams(location.search);
+    const bgImage = params.get('bg');
+    const balloonImages = {
+      normal: params.get('balloon') || null,
+      time: params.get('balloon_time') || null,
+      gold: params.get('balloon_gold') || null,
+      bomb: params.get('balloon_bomb') || null,
+    };
+    if (bgImage) {
+      document.documentElement.style.setProperty('--stage-bg-image', `url('${decodeURIComponent(bgImage)}')`);
+    }
+    const imgFor = (type) => {
+      const u = balloonImages[type] || balloonImages.normal;
+      return u ? decodeURIComponent(u) : null;
+    };
+
+    // ---- State
+    let score = 0; 
+    let timeLeft = 30; 
+    let running = false; 
+    let spawnTimer = null; 
+    let tickTimer = null;
+
+    // ---- Audio (WebAudio moo)
+    let audioCtx = null; let muted = false;
+    function initAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+    function playMoo({pitch=110, duration=0.35, gain=0.25}={}){
+      if(muted) return; initAudio(); if(!audioCtx) return;
+      const ctx = audioCtx; const g = ctx.createGain(); g.gain.value=0; g.connect(ctx.destination);
+      const o1 = ctx.createOscillator(); o1.type='sawtooth'; o1.frequency.value=pitch;
+      const o2 = ctx.createOscillator(); o2.type='triangle'; o2.frequency.value=pitch/2;
+      const lpf = ctx.createBiquadFilter(); lpf.type='lowpass'; lpf.frequency.value=800;
+      o1.connect(lpf); o2.connect(lpf); lpf.connect(g);
+      const now = ctx.currentTime;
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(gain, now+0.06);
+      g.gain.linearRampToValueAtTime(gain*0.65, now+duration*0.5);
+      g.gain.linearRampToValueAtTime(0.0001, now+duration);
+      o1.frequency.setValueAtTime(pitch*1.05, now);
+      o1.frequency.exponentialRampToValueAtTime(pitch*0.92, now+duration*0.6);
+      o2.frequency.setValueAtTime(pitch/2*1.02, now);
+      o2.frequency.exponentialRampToValueAtTime(pitch/2*0.95, now+duration*0.6);
+      o1.start(now); o2.start(now); o1.stop(now+duration+0.02); o2.stop(now+duration+0.02);
+    }
+
+    muteBtn.addEventListener('click', ()=>{ muted=!muted; muteBtn.classList.toggle('muted', muted); muteBtn.textContent = muted ? '🔇 Muted' : '🔊 Sound'; });
+
+    // ---- Cow wiggle
+    stage.addEventListener('pointermove', (e)=>{
+      const rect = stage.getBoundingClientRect();
+      const x = (e.clientX-rect.left)/rect.width; 
+      const y = (e.clientY-rect.top)/rect.height;
+      const tiltX=(x-0.5)*6; const tiltY=(0.5-y)*4; 
+      cow.style.transform=`translateY(${tiltY}px) rotate(${tiltX}deg)`;
+    });
+
+    function rand(min,max){ return Math.random()*(max-min)+min }
+
+    function createBalloon(){
+      if(!running) return;
+      const b = document.createElement('div'); b.className='balloon';
+
+      // Decide type first
+      const r = Math.random();
+      if (r < 0.10) { b.dataset.type = 'time'; b.title = '+3 sec'; }
+      else if (r < 0.22) { b.dataset.type = 'gold'; b.title = '+5 points'; }
+      else if (r < 0.32) { b.dataset.type = 'bomb'; b.title = '-3 points'; }
+      else { b.dataset.type = 'normal'; b.title = '+1 point'; }
+
+      // Image skin or colored style
+      const skin = imgFor(b.dataset.type);
+      if (skin) {
+        const img = document.createElement('img');
+        img.src = skin; img.alt = `${b.dataset.type} balloon`;
+        b.appendChild(img);
+      } else {
+        const palette=['var(--accent)','var(--accent-2)','var(--accent-3)'];
+        b.style.background=`radial-gradient(circle at 30% 30%, #fff8, currentColor 60%)`;
+        if (b.dataset.type==='time') b.style.color = 'var(--time)';
+        else if (b.dataset.type==='gold') { b.style.color='gold'; b.style.filter='drop-shadow(0 0 8px #ffd700aa)'; }
+        else if (b.dataset.type==='bomb') { b.style.color='#333'; b.style.background='repeating-linear-gradient(45deg,#555 0 8px,#777 8px 16px)'; }
+        else b.style.color = palette[Math.floor(Math.random()*palette.length)];
+      }
+
+      // Position
+      b.style.left = `calc(${rand(5,95)}% - 30px)`; b.style.bottom='-80px';
+
+      // String
+      const string=document.createElement('div'); string.className='string'; b.appendChild(string);
+
+      // Interactions & add
+      b.addEventListener('pointerdown', ()=> popBalloon(b));
+      stage.appendChild(b);
+
+      // Float animation
+      const duration = rand(6,12); const start = performance.now(); const startBottom=-80; const target = stage.clientHeight+120;
+      function step(t){ if(!running) return; const p=Math.min((t-start)/1000/duration,1); b.style.bottom=(startBottom+p*target)+'px'; if(p<1) requestAnimationFrame(step); else b.remove(); }
+      requestAnimationFrame(step);
+    }
+
+    function floatText(el, text, bg){
+      const fx = document.createElement('div');
+      fx.textContent = text; fx.style.position='absolute';
+      fx.style.left = el.style.left; fx.style.bottom = el.style.bottom;
+      fx.style.padding='2px 6px'; fx.style.fontWeight='800'; fx.style.border='2px solid #000'; fx.style.borderRadius='10px';
+      fx.style.background= bg || '#000'; fx.style.color='#fff'; fx.style.transform='translate(-10px, -10px)'; fx.style.boxShadow='2px 2px 0 #000';
+      stage.appendChild(fx);
+      let t0 = performance.now(); (function lift(t){ const p = Math.min((t-t0)/700,1); fx.style.opacity=String(1-p); fx.style.transform = `translate(-10px, ${-10 - p*34}px)`; if(p<1) requestAnimationFrame(lift); else fx.remove(); })(t0);
+    }
+
+    function popBalloon(b){
+      if(!running) return; const type = b.dataset.type; b.classList.add('pop'); setTimeout(()=> b.remove(), 160);
+      let delta = 0; let mooPitch = 120;
+      if(type==='gold'){ delta = 5; mooPitch = 180; floatText(b, '+5', 'var(--good)'); }
+      else if(type==='bomb'){ delta = -3; mooPitch = 70; floatText(b, '-3', 'var(--bad)'); }
+      else if(type==='time'){ delta = 1; mooPitch = 140; timeLeft = Math.min(90, timeLeft + 3); timeEl.textContent = `Time: ${Math.ceil(timeLeft)}`; floatText(b, '+3s', 'var(--time)'); }
+      else { delta = 1; mooPitch = 120; floatText(b, '+1', 'var(--good)'); }
+      score = Math.max(0, score + delta); scoreEl.textContent = `Score: ${score}`;
+      playMoo({pitch: mooPitch, duration: 0.28, gain: 0.22});
+      cow.style.transform = 'translateY(-2px) scale(1.03)'; setTimeout(()=> cow.style.transform = '', 120);
+    }
+
+    function startGame(){
+      if(running) return; running=true; score=0; timeLeft=30;
+      scoreEl.textContent='Score: 0'; timeEl.textContent='Time: 30'; startBtn.textContent='Running…'; startBtn.disabled=true; initAudio();
+      [...stage.querySelectorAll('.balloon')].forEach(el=>el.remove());
+      // Spawner (slight acceleration with time)
+      (function spawnLoop(){ if(!running) return; createBalloon(); const base=650; const accel=Math.max(220, base - (30 - Math.max(0,timeLeft))*10); spawnTimer=setTimeout(spawnLoop, accel); })();
+      // Timer (200ms resolution)
+      (function tick(){ if(!running) return; timeLeft = Math.max(0, timeLeft - 0.2); timeEl.textContent = `Time: ${Math.ceil(timeLeft)}`; if(timeLeft>0){ tickTimer=setTimeout(tick, 200);} else { endGame(); } })();
+    }
+
+    function endGame(){
+      running=false; startBtn.disabled=false; startBtn.textContent='Play Again'; clearTimeout(spawnTimer); clearTimeout(tickTimer);
+      const dlg=document.createElement('div'); dlg.style.position='absolute'; dlg.style.inset='0'; dlg.style.display='grid'; dlg.style.placeItems='center'; dlg.style.background='rgba(255,255,255,.6)';
+      const card=document.createElement('div'); card.style.border='3px solid #000'; card.style.background='#fff'; card.style.borderRadius='16px'; card.style.padding='18px 20px'; card.style.boxShadow='6px 6px 0 #00000020'; card.style.textAlign='center';
+      card.innerHTML = `<h2 style="margin:6px 0 10px">Game Over!</h2><div style="font-weight:800; margin-bottom:8px">Your score: ${score}</div><button id=\"again\" class=\"btn\">Play Again</button>`;
+      dlg.appendChild(card); stage.appendChild(dlg); card.querySelector('#again').addEventListener('click', ()=>{ dlg.remove(); startGame(); });
+      if(score>0) playMoo({pitch: 140, duration: 0.5, gain: 0.28});
+    }
+
+    startBtn.addEventListener('click', startGame);
+    window.addEventListener('keydown', (e)=>{ if((e.key===' '||e.key==='Enter') && !running) startGame(); });
+  </script>
+</body>
+</html>
