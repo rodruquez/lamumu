@@ -47,6 +47,12 @@
   border-top: 3px dashed #d2a679; /* ten rengine uyumlu çizgi */
 }
 
+.watermark{
+  position:absolute; right:14px; bottom:14px;
+  padding:6px 10px; border:2px solid #000; border-radius:12px;
+  background:#fff; font-weight:900; letter-spacing:.5px;
+  box-shadow:3px 3px 0 #00000020; opacity:.9; user-select:none; pointer-events:none;
+}
 
 
     .fence{position:absolute;bottom:100px;left:-20px;right:-20px;height:24px;background:repeating-linear-gradient(90deg,#ffe0a6 0 40px,#ffd58a 40px 43px);box-shadow:0 4px 0 #cfa35b}
@@ -136,6 +142,7 @@
         </div>
       </div>
     </main>
+<div class="watermark">rodruquez</div>
 
     <footer>
       Common × Lamumu — timed mode (+3s time balloons). Background & balloons can be overridden via URL params or local assets.
