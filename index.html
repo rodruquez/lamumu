@@ -104,10 +104,6 @@
 
     .pop{animation:pop .18s ease-out forwards}
     @keyframes pop{to{transform:scale(1.2);opacity:0}}
-    .cloud{position:absolute;top:10px;width:160px;height:60px;filter:drop-shadow(2px 4px 0 #00000010);opacity:.8}
-    .cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border:3px solid #000;border-radius:50px}
-    .cloud::before{width:100px;height:50px;left:10px;top:6px}
-    .cloud::after{width:70px;height:40px;left:80px;top:0}
     footer{font-size:12px;text-align:center;opacity:.7}
     a{color:inherit}
     .muted{opacity:.5}
@@ -126,8 +122,6 @@
     </header>
 
     <main class="stage" id="stage" aria-label="Game stage" role="application">
-      <div class="cloud" style="left:20px"></div>
-      <div class="cloud" style="left:60%; top:40px; transform:scale(.9)"></div>
       <div class="fence"></div>
       <div class="ground"></div>
 
